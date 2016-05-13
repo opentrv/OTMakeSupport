@@ -4,10 +4,10 @@ from git import Repo
 import os
 import subprocess
 
-# Path names. Adjust these for your setup.
+# Adjust these for your setup.
 REPO_BRANCH = 'master'  # Branch being tested
 REPO_PATH = ''  # Location of folder to clone git repos into. Note that python doesn't seem to recognise '~/'
-ARDUINO_BIN = ''  # Command to run Arduino IDE.
+ARDUINO_BIN = ''  # Command to run Arduino IDE (path to binary or 'arduino' if you installed your IDE.
 ARDUINO_FLAGS = '--verify'  # Flags to pass the IDE. See https://github.com/arduino/Arduino/blob/ide-1.5.x/build/shared/manpage.adoc
 # No need to change these
 REPO_LOCALS = {'opentrv': 'opentrv', 'otradiolink': 'otradiolink', 'otaesgcm': 'otaesgcm'}  # Names for local repos
