@@ -2,4 +2,4 @@
 Build and CI support for OpenTRV projects.
 
 Dependencies:
-- GitPython
+- GitPython (https://github.com/gitpython-developers/GitPython)
