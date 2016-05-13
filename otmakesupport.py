@@ -16,7 +16,6 @@ ARDUINO_BIN = '/home/denzo/OpenTRV/Arduino'
 
 my_repos = None
 
-# TODO this is the wrong way round.
 try:
     #
     print("Updating repos")
