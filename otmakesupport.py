@@ -2,22 +2,25 @@
 
 from git import Repo
 import os
+from subprocess import call
 
-join = os.path.join
-
-# Path names
+# Path names. Adjust these for your setup.
+REPO_BRANCH = 'master'  # Branch being tested
+REPO_PATH = '~/OpenTRV/OTMakeSupport_test'  # Location of repos
+REPO_LOCALS = {'opentrv': 'opentrv', 'otradiolink': 'otradiolink', 'otaesgcm': 'otaesgcm'}  # Names for local repos
+ARDUINO_BIN = 'arduino'  # Command to run Arduino IDE
+ARDUINO_FLAGS = '--verify'  # Flags to pass the IDE. See https://github.com/arduino/Arduino/blob/ide-1.5.x/build/shared/manpage.adoc
+SKETCH_PATH = 'opentrv/Arduino/V0p2_Main/V0p2_Main.ino'  # Path V0p2_main.ino relative to REPO_PATH
 REPO_REMOTES = {'opentrv': 'https://github.com/DamonHD/OpenTRV',
-                'otradiolink' : 'https://github.com/opentrv/OTRadioLink',
-                'otaesgcm' : 'https://github.com/opentrv/OTAESGCM'}
-REPO_BRANCH = 'master'
-REPO_PATH = '/home/denzo/OpenTRV/OTMakeSupport_test'
-REPO_LOCALS = {'opentrv': 'opentrv', 'otradiolink': 'otradiolink', 'otaesgcm': 'otaesgcm'}
-ARDUINO_BIN = '/home/denzo/OpenTRV/Arduino'
+                'otradiolink': 'https://github.com/opentrv/OTRadioLink',
+                'otaesgcm': 'https://github.com/opentrv/OTAESGCM'}  # Links to Git repos.
 
-my_repos = None
+# global variables.
+join = os.path.join  # shortcut function
+my_repos = None  # global declaration
 
 try:
-    #
+    # Try updating local repos.
     print("Updating repos")
     my_repos = {'opentrv': Repo(join(REPO_PATH, REPO_LOCALS['opentrv'])),
                 'otradiolink': Repo(join(REPO_PATH, REPO_LOCALS['otradiolink'])),
@@ -37,5 +40,9 @@ except:
         my_repos = {'opentrv': Repo.clone_from(REPO_REMOTES['opentrv'], join(REPO_PATH, REPO_LOCALS['opentrv']), branch=REPO_BRANCH),
                     'otradiolink': Repo.clone_from(REPO_REMOTES['otradiolink'], join(REPO_PATH, REPO_LOCALS['otradiolink']), branch=REPO_BRANCH),
                     'otaesgcm': Repo.clone_from(REPO_REMOTES['otaesgcm'], join(REPO_PATH, REPO_LOCALS['otaesgcm']), branch=REPO_BRANCH)}
+
+
+# Try compiling with the arduino IDE.
+call([ARDUINO_BIN, ARDUINO_FLAGS, join(REPO_PATH, SKETCH_PATH)])
 
 print("success")
