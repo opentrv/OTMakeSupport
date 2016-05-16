@@ -8,7 +8,7 @@ import subprocess
 REPO_BRANCH = 'master'  # Branch being tested
 REPO_PATH = ''  # Location of folder to clone git repos into. Note that python doesn't seem to recognise '~/'
 ARDUINO_BIN = ''  # Command to run Arduino IDE (path to binary or 'arduino' if you installed your IDE.
-ARDUINO_FLAGS = '--verify'  # Flags to pass the IDE. See https://github.com/arduino/Arduino/blob/ide-1.5.x/build/shared/manpage.adoc
+ARDUINO_FLAGS = '--verify --board opentrv:avr:opentrv_v0p2'  # Flags to pass the IDE. See https://github.com/arduino/Arduino/blob/ide-1.5.x/build/shared/manpage.adoc
 # No need to change these
 REPO_LOCALS = {'opentrv': 'opentrv', 'otradiolink': 'otradiolink', 'otaesgcm': 'otaesgcm'}  # Names for local repos
 SKETCH_PATH = 'opentrv/Arduino/V0p2_Main/V0p2_Main.ino'  # Path V0p2_main.ino relative to REPO_PATH
