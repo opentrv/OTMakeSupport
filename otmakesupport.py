@@ -9,9 +9,8 @@ import sys
 REPO_BRANCH = 'master'  # Branch being tested
 REPO_PATH = ''  # Location of folder to clone git repos into. Note that python doesn't seem to recognise '~/'
 ARDUINO_BIN = ''  # Command to run Arduino IDE (path to binary or 'arduino' if you installed your IDE.
-#ARDUINO_FLAGS = '--verify --board opentrv:avr:opentrv_v0p2'  # Flags to pass the IDE. See https://github.com/arduino/Arduino/blob/ide-1.5.x/build/shared/manpage.adoc
-BUILD_TYPE = '--verify'
-BUILD_TARGET = 'opentrv:avr:opentrv_v0p2'
+BUILD_TYPE = '--verify'  # Flags to pass the IDE. See https://github.com/arduino/Arduino/blob/ide-1.5.x/build/shared/manpage.adoc
+BUILD_TARGET = 'opentrv:avr:opentrv_v0p2'  # Build for V0p2. Note: options and their parameters must be passed to subprocess.run separately.
 # BUILD_TARGET = '--verbose-build'
 # No need to change these
 REPO_LOCALS = {'opentrv': 'opentrv', 'otradiolink': 'otradiolink', 'otaesgcm': 'otaesgcm'}  # Names for local repos
@@ -57,4 +56,4 @@ except:
 # Try compiling with the arduino IDE. 'stdout=subprocess.PIPE' pipes the output to the shell.
 build_result = subprocess.run([ARDUINO_BIN, BUILD_TYPE, '--board', BUILD_TARGET,join(REPO_PATH, SKETCH_PATH)], stdout=subprocess.PIPE)
 
-sys.exit(build_result.returncode)
+sys.exit(build_result.returncode)  # Exits with the return code of the arduino.
