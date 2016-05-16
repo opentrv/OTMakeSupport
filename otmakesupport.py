@@ -11,7 +11,7 @@ REPO_PATH = ''  # Location of folder to clone git repos into. Note that python d
 ARDUINO_BIN = ''  # Command to run Arduino IDE (path to binary or 'arduino' if you installed your IDE.
 BUILD_TYPE = '--verify'  # Flags to pass the IDE. See https://github.com/arduino/Arduino/blob/ide-1.5.x/build/shared/manpage.adoc
 BUILD_TARGET = 'opentrv:avr:opentrv_v0p2'  # Build for V0p2. Note: options and their parameters must be passed to subprocess.run separately.
-# BUILD_TARGET = '--verbose-build'
+
 # No need to change these
 REPO_LOCALS = {'opentrv': 'opentrv', 'otradiolink': 'otradiolink', 'otaesgcm': 'otaesgcm'}  # Names for local repos
 SKETCH_PATH = 'opentrv/Arduino/V0p2_Main/V0p2_Main.ino'  # Path V0p2_main.ino relative to REPO_PATH
