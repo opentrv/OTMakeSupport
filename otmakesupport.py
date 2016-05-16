@@ -3,12 +3,16 @@
 from git import Repo
 import os
 import subprocess
+import sys
 
 # Adjust these for your setup.
 REPO_BRANCH = 'master'  # Branch being tested
 REPO_PATH = ''  # Location of folder to clone git repos into. Note that python doesn't seem to recognise '~/'
 ARDUINO_BIN = ''  # Command to run Arduino IDE (path to binary or 'arduino' if you installed your IDE.
-ARDUINO_FLAGS = '--verify --board opentrv:avr:opentrv_v0p2'  # Flags to pass the IDE. See https://github.com/arduino/Arduino/blob/ide-1.5.x/build/shared/manpage.adoc
+#ARDUINO_FLAGS = '--verify --board opentrv:avr:opentrv_v0p2'  # Flags to pass the IDE. See https://github.com/arduino/Arduino/blob/ide-1.5.x/build/shared/manpage.adoc
+BUILD_TYPE = '--verify'
+BUILD_TARGET = 'opentrv:avr:opentrv_v0p2'
+# BUILD_TARGET = '--verbose-build'
 # No need to change these
 REPO_LOCALS = {'opentrv': 'opentrv', 'otradiolink': 'otradiolink', 'otaesgcm': 'otaesgcm'}  # Names for local repos
 SKETCH_PATH = 'opentrv/Arduino/V0p2_Main/V0p2_Main.ino'  # Path V0p2_main.ino relative to REPO_PATH
@@ -51,4 +55,6 @@ except:
 
 
 # Try compiling with the arduino IDE. 'stdout=subprocess.PIPE' pipes the output to the shell.
-subprocess.run([ARDUINO_BIN, ARDUINO_FLAGS, join(REPO_PATH, SKETCH_PATH)], stdout=subprocess.PIPE)
+build_result = subprocess.run([ARDUINO_BIN, BUILD_TYPE, '--board', BUILD_TARGET,join(REPO_PATH, SKETCH_PATH)], stdout=subprocess.PIPE)
+
+sys.exit(build_result.returncode)
