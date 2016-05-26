@@ -4,11 +4,11 @@ before_install:
   - sleep 3
   - export DISPLAY=:1.0
   - wget http://downloads.arduino.cc/arduino-1.6.8-linux64.tar.xz
-  - wget https://github.com/Denzo77/OTRadioLink/raw/master/OTRadioLink.zip
-  - wget https://github.com/opentrv/OTAESGCM/raw/master/OTAESGCM.zip
+  - wget https://github.com/opentrv/OTRadioLink/archive/master.zip
+  - wget https://github.com/opentrv/OTAESGCM/archive/master.zip
   - tar xf arduino-1.6.8-linux64.tar.xz
-  - unzip OTRadioLink.zip
-  - unzip OTAESGCM.zip
+  - unzip master.zip
+  - unzip master.zip.1
   - sudo mv arduino-1.6.8 /usr/local/share/arduino
   - sudo ln -s /usr/local/share/arduino/arduino /usr/local/bin/arduino
 install:
