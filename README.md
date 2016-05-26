@@ -1,9 +1,14 @@
 # OTMakeSupport
 Build and CI support for OpenTRV projects.
 
-NOTE: Currently the script will clone the repos/pull the latest commit and attempt to compile V0p2_main. Unfortunately, it does not yet put the libraries in a place the Arduino IDE can see.
-
 ## How to use:
+### Travis CI
+Unfinished.
+- Rename travis_script to .travis.yml
+- Put in root dir of OpenTRV repo.
+
+### Python
+NOTE: Currently the script will clone the repos/pull the latest commit and attempt to compile V0p2_main. Unfortunately, it does not yet put the libraries in a place the Arduino IDE can see.
 - Install Python 3, python3-pip, git and Arduino IDE.
 - Run "pip3 install gitpython" to get GitPython.
 - Adjust 'REPO_PATH' and 'ARDUINO_BIN' to suit your setup.
