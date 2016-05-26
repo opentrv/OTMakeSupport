@@ -7,6 +7,8 @@ before_install:
   - wget https://github.com/Denzo77/OTRadioLink/raw/master/OTRadioLink.zip
   - wget https://github.com/opentrv/OTAESGCM/raw/master/OTAESGCM.zip
   - tar xf arduino-1.6.8-linux64.tar.xz
+  - unzip OTRadioLink.zip
+  - unzip OTAESGCM.zip
   - sudo mv arduino-1.6.8 /usr/local/share/arduino
   - sudo ln -s /usr/local/share/arduino/arduino /usr/local/bin/arduino
 install:
