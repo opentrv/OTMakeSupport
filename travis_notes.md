@@ -1,18 +1,15 @@
-## Before install steps:
-1. Setup dummy X server for Arduino IDE.
-2. Download Arduino 1.6.8, OTRadioLink and OTAESGCM.
-3. Extract them all.
-4. Move Arduino IDE to /usr/local/share/ and add to path.
+#CI Notes
 
-## Install steps:
-1. ?? (ln -s $PWD /usr/local/share/arduino/libraries/)
-2. Install OpenTRV board.
-    - This will require editing preferences.txt first.
-3. Install OpenTRV libs.
-    - Will have to manually install.
+## Aim
+Test the current version of our repos compiles (different build configs etc don't matter for now).
 
-## Script:
+## Setup
+- Download and setup Arduino IDE
+- Install the opentrv v0p2 board
+    - Edit preferences.txt to add the v0p2 board (need to add the link in the readme for  [OpenTRV-Config/Arduino](https://github.com/opentrv/OpenTRV-Config/tree/master/Arduino) repo)
+    - Run arduino --install-board "opentrv:avr:opentrv_v0p2"
+- Setup OTRadioLink and OTAESGCM (Does the OpenTRV repo need to be set up here?).
+
+## Test
 - Verify V0p2_main.ino compiles.
-
-## Notification:
-- Send a notification email on success and failure.
+    - arduino --verify --board opentrv:avr:opentrv_v0p2 /path-to-V0p2_main.ino
