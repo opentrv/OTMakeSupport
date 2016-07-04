@@ -1,0 +1,3 @@
+#!/bin/sh
+/home/mark/m/dev/arduino/arduino-167/arduino-1.6.7/hardware/tools/avr/bin/avrdude -C/home/mark/m/dev/arduino/arduino-167/arduino-1.6.7/hardware/tools/avr/etc/avrdude.conf -v -patmega328p -cusbtiny  -b4800 -D -Uflash:w:/home/mark/m/dev/opentrv/rev14/OpenTRV/Arduino/V0p2_Main/V0p2_Main.ino.with_bootloader.arduino_standard.hex:i
+#/home/mark/m/dev/arduino/arduino-167/arduino-1.6.7/hardware/tools/avr/bin/avrdude -C/home/mark/m/dev/arduino/arduino-167/arduino-1.6.7/hardware/tools/avr/etc/avrdude.conf -v -patmega328p -cusbtiny  -b4800 -D -Uflash:w:/tmp/build838ca5edd77fa4e0fa579e8aa37f1d12.tmp/V0p2_Main.ino.hex:i
