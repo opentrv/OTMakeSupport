@@ -19,16 +19,16 @@ Author(s) / Copyright (s): Deniz Erbilgin 2016
 /**
  * Set of tests for REV7 hardware.
  * High Priority Tests:
- *     - [x] Supply voltage : Print measured voltage to serial
  *     - [x] Xtal           : Check resonator frequency against internal RC
  *     - [x] Phototransistor: Perform a reading and check value is sane.
  *     - [x] SHT21          : Perform a reading and check value is sane.
- *     - [?] RFM23B         : Test RFM23B responds TODO make sure this is correct
+ *     - [x] RFM23B         : Test RFM23B responds TODO make sure this is correct
  *     - [x] LED            : Flash LED (work out specifics)
  *     - [x] Buttons        : Make sure buttons are not stuck.
  *     - [x] Potentiometer  : Perform a reading and check value is sane.
  *     - [x] H-Bridge       : TBD
  * Low Priority Tests:
+ *     - [x] Supply voltage : Print measured voltage to serial
  *     - [ ] RFM23B Rx/Tx   : Make sure RFM23B can Rx/Tx.
  *     - [*] Scan I2C bus   : Check what is connected to I2C.
  *     - [ ] Motor current  : Make sure we can properly measure motor current.

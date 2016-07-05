@@ -1,6 +1,10 @@
 # REV7 Hardware Tests
 This is a sketch designed to automate fault finding on the V0p2 REV7 board.
 
+## Features to Implement
+- Make LED test flash a 'tests passed' routine to indicate success.
+- Use a better string to indicate the device is attached.
+
 ## Peripherals To Test
 High Priority Tests:
     - [x] Serial UART    : Implicit.
