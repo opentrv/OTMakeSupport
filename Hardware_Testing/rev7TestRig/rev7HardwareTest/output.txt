@@ -1,0 +1,8 @@
+{'RFM23B': 'PASS', 'Supply': 'CHECK', 'Potentiometer': 'PASS', 'SHT21': 'PASS', 'UILED': 'FALSE', 'MotorLeft': 'CHECK', 'Xtal': 'PASS', 'MotorRight': 'CHECK', 'LightSensor': 'PASS', 'Buttons': 'FALSE'}{'RFM23B': 'PASS', 'Supply': 'CHECK', 'Potentiometer': 'PASS', 'SHT21': 'PASS', 'UILED': 'FAIL', 'MotorLeft': 'CHECK', 'Xtal': 'PASS', 'MotorRight': 'CHECK', 'LightSensor': 'PASS', 'Buttons': 'PASS'}{'RFM23B': 'PASS', 'Supply': 'CHECK', 'Potentiometer': 'PASS', 'SHT21': 'PASS', 'UILED': 'FAIL', 'MotorLeft': 'CHECK', 'Xtal': 'PASS', 'MotorRight': 'CHECK', 'LightSensor': 'PASS', 'Buttons': 'PASS'}
+{'RFM23B': 'PASS', 'Supply': 'CHECK', 'Potentiometer': 'PASS', 'SHT21': 'PASS', 'UILED': 'FAIL', 'MotorLeft': 'CHECK', 'Xtal': 'PASS', 'MotorRight': 'CHECK', 'LightSensor': 'PASS', 'Buttons': 'PASS'}
+{'RFM23B': 'PASS', 'Supply': 'CHECK', 'Potentiometer': 'PASS', 'SHT21': 'PASS', 'UILED': 'FAIL', 'MotorLeft': 'CHECK', 'Xtal': 'PASS', 'MotorRight': 'CHECK', 'LightSensor': 'PASS', 'Buttons': 'PASS'}
+{'RFM23B': 'PASS', 'Supply': 'CHECK', 'Potentiometer': 'PASS', 'SHT21': 'PASS', 'UILED': 'FAIL', 'MotorLeft': 'CHECK', 'Xtal': 'PASS', 'MotorRight': 'CHECK', 'LightSensor': 'PASS', 'Buttons': 'PASS'}
+{'RFM23B': 'PASS', 'Supply': 'CHECK', 'Potentiometer': 'PASS', 'SHT21': 'PASS', 'UILED': 'FAIL', 'MotorLeft': 'CHECK', 'Xtal': 'PASS', 'MotorRight': 'CHECK', 'LightSensor': 'PASS', 'Buttons': 'PASS'}
+{'UILED': 0}
+{'RFM23B': 1, 'Supply': 0, 'Potentiometer': 1, 'SHT21': 1, 'UILED': 0, 'MotorLeft': 0, 'Xtal': 1, 'MotorRight': 0, 'LightSensor': 1, 'Buttons': 1}
+{'RFM23B': 1, 'Supply': 0, 'Potentiometer': 1, 'SHT21': 1, 'UILED': 0, 'MotorLeft': 0, 'Xtal': 1, 'MotorRight': 0, 'LightSensor': 1, 'Buttons': 1}

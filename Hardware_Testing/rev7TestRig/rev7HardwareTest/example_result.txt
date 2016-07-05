@@ -1,0 +1,18 @@
+REV7 Hardware Tests
+Setting up Peripherals... done
+Setting up I2C... done
+Waiting for Xtal to settle
+
+
+Testing START
+Testing UILED FAIL
+Testing Supply CHECK 300cV
+Testing Xtal PASS
+Testing LightSensor PASS 29
+Testing SHT21 PASS 417
+Testing RFM23B PASS
+Testing Buttons PASS
+Testing Potentiometer PASS 184
+Testing MotorLeft CHECK
+Testing MotorRight CHECK
+Testing DONE
