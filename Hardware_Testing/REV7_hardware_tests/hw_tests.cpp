@@ -47,7 +47,7 @@ OTRFM23BLink::OTRFM23BLink<PIN_SPI_nSS, -1, 1, false> RFM23B; // Do not allow Rx
  */
 void setupBasicPeripherals()
 {
-    Serial.print(F("Setting up Peripherals... "));
+//    Serial.print(F("Setting up Peripherals... "));
     OTV0P2BASE::IOSetup();// IO setup for safety, and to avoid pins floating.
     OTV0P2BASE::powerSetup(); // Standard V0p2 startup method.
     OTV0P2BASE::powerUpSerialIfDisabled<4800>();
@@ -56,7 +56,7 @@ void setupBasicPeripherals()
     digitalWrite(MOTOR_DRIVE_MR, HIGH);
     pinMode(MOTOR_DRIVE_ML , OUTPUT);
     pinMode(MOTOR_DRIVE_MR , OUTPUT);
-    Serial.println(F("done"));
+//    Serial.println(F("done"));
     Serial.flush();
 }
 
@@ -67,9 +67,9 @@ void setupBasicPeripherals()
  */
 void setupI2C()
 {
-    Serial.print(F("Setting up I2C... "));
+//    Serial.print(F("Setting up I2C... "));
     OTV0P2BASE::powerUpTWIIfDisabled();
-    Serial.println(F("done"));
+//    Serial.println(F("done"));
     Serial.flush();
 }
 
@@ -80,14 +80,14 @@ void setupI2C()
  */
 void setupPins()
 {
-    Serial.print(F("Setup pins... "));
+//    Serial.print(F("Setup pins... "));
 //    pinMode(RN2483_Rst_pin, OUTPUT);
 //    pinMode(IO_Powerup_pin, OUTPUT);
 //    pinMode(BoostRegEn_pin, OUTPUT);
 //    digitalWrite(RN2483_Rst_pin, HIGH);
     digitalWrite(IO_POWER_UP, HIGH); // Power up peripherals
 //    digitalWrite(BoostRegEn_pin, HIGH);
-    Serial.println(F("done"));
+//    Serial.println(F("done"));
     Serial.flush();;
 }
 
@@ -121,6 +121,33 @@ void setupSoftSerial()
 /************************************** Test Functions ******************************/
 
 /**
+ * @brief   Tests serial connection both ways. Blocks until timeout.
+ * 
+ */
+void testSerial()
+{
+    uint16_t endTime = 0;
+    uint8_t index = 5;
+    Serial.print(F("Testing Serial "));
+    while(Serial.available() > 0) Serial.read();
+    Serial.println(F("CHECK"));
+    Serial.flush();
+    endTime = millis() + 2000; // timeout in 2 seconds
+    while(millis() < endTime) {
+//    while(1) {
+        if(Serial.available() > 0) {
+          Serial.print((char)Serial.read());
+          if(--index == 0) {
+            Serial.println();
+            return;
+          }
+        }
+    }
+    Serial.println(F("TIMEOUT"));
+    Serial.flush();
+}
+
+/**
  * @brief   Tests supply voltage against internal reference
  * @todo    Implement test - What is expected value etc.
  * @todo    Can this be done with OTV0p2Base lib functions?
@@ -128,11 +155,11 @@ void setupSoftSerial()
 void testVcc()
 {
     uint16_t value = 0;
-    Serial.print(F("Testing Supply... "));
+    Serial.print(F("Testing Vcc "));
     value = Supply_cV.read();
     Serial.print(F("CHECK "));
-    Serial.print(value); // print supply voltage
-    Serial.println(F("cV"));
+    Serial.println(value); // print supply voltage
+//    Serial.println(F("cV"));
     Serial.flush();
 }
 
@@ -141,7 +168,7 @@ void testVcc()
  */
  void testXtal()
  {
-    Serial.print(F("Testing Xtal... "));
+    Serial.print(F("Testing Xtal "));
     delay(500);
     if(::OTV0P2BASE::HWTEST::check32768HzOscExtended()) Serial.println(F("PASS"));
     else Serial.println(F("FAIL"));
@@ -155,7 +182,7 @@ void testVcc()
 void testLightSensor()
 {
     uint8_t value = 0;
-    Serial.print(F("Testing Light Sensor... "));
+    Serial.print(F("Testing LightSensor "));
     value = analogRead(LDR_SENSOR_AIN);
     if( (value == 0) || (value == 255) ) Serial.print(F("FAIL "));
     else Serial.print(F("PASS "));
@@ -183,7 +210,7 @@ void scanI2C()
 void testSHT21()
 {
     uint16_t temp;
-    Serial.print(F("Testing SHT21... "));
+    Serial.print(F("Testing SHT21 "));
     Serial.flush();
     temp = sht21Temp.read();
     if( (temp > (15*16)) && (temp < (40*16))) Serial.print(F("PASS "));
@@ -199,7 +226,7 @@ void testSHT21()
  */
 void testRFM23BBasic()
 {
-    Serial.print(F("Testing RFM23B... "));
+    Serial.print(F("Testing RFM23B "));
     Serial.flush();
     if( RFM23B.begin()) Serial.println(F("PASS"));  // fixme I think this returns true/false depending on if can talk to radio
     else Serial.println(F("FAIL"));
@@ -214,7 +241,7 @@ void testRFM23BBasic()
 void testPotCentred()
 {
     uint8_t value = 0;
-    Serial.print(F("Testing Potentiometer... "));
+    Serial.print(F("Testing Potentiometer "));
     value = analogRead(TEMP_POT_AIN);
     if( (value == 0) || (value == 255) ) Serial.print(F("FAIL "));
     else Serial.print(F("PASS "));
@@ -228,7 +255,7 @@ void testPotCentred()
  */
 void testButtonsUnstuck()
 {
-    Serial.print(F("Testing Buttons... "));
+    Serial.print(F("Testing Buttons "));
     // Check buttons not stuck in the activated position.
     // All expected to return low.
 //    Serial.print(fastDigitalRead(BUTTON_LEARN_L));
@@ -239,15 +266,21 @@ void testButtonsUnstuck()
 }
 
 /**
- * @brief   Turns on LED.
+ * @brief   Starts flashing the LED.
  * @note    Call this first?
  */
 void testUILED()
 { 
-    Serial.print(F("Testing UILED... "));
+    Serial.print(F("Testing UILED "));
     pinMode(LED_HEATCALL_L, OUTPUT); // make sure set to output
-    digitalWrite(LED_HEATCALL_L, LOW); // set low?? TODO make sure this is correct
     Serial.println(F("CHECK"));
+    Serial.println(F("Testing DONE"));
+    while(1) {
+        digitalWrite(LED_HEATCALL_L, LOW);
+        delay(100);
+        digitalWrite(LED_HEATCALL_L, HIGH);
+        delay(500);
+    }
     Serial.flush();
 }
 
@@ -258,7 +291,7 @@ void testUILED()
  */
 void testMotorLeft()
 {
-    Serial.print(F("Testing MotorLeft... "));
+    Serial.print(F("Testing MotorLeft "));
     Serial.flush();
     digitalWrite(MOTOR_DRIVE_ML, LOW);
     delay(500);
@@ -275,7 +308,7 @@ void testMotorLeft()
  */
 void testMotorRight()
 {
-    Serial.print(F("Testing MotorRight... "));
+    Serial.print(F("Testing MotorRight "));
     Serial.flush();
     digitalWrite(MOTOR_DRIVE_MR, LOW);
     delay(500);
@@ -309,7 +342,7 @@ uint8_t testI2CDev(uint8_t addr)
  */
 void testTMP112()
 {
-    Serial.print(F("Checking for TMP112... "));
+    Serial.print(F("Checking for TMP112 "));
     Serial.println(F("NOT IMPLEMENTED"));
     Serial.flush();
 }
@@ -321,7 +354,7 @@ void testTMP112()
  */
 void testQM1()
 {
-    Serial.print(F("Checking for QM-1... "));
+    Serial.print(F("Checking for QM-1 "));
     Serial.println(F("NOT IMPLEMENTED"));
     Serial.flush();
 }
@@ -335,7 +368,7 @@ void testRN2483()
 //    char buf[9];
 //    memset(buf, 0, sizeof(buf));
 //    buf[8] = ' ';
-    Serial.println(F("Testing RN2483... "));
+    Serial.println(F("Testing RN2483 "));
 //    // reset RN2483
 //    digitalWrite(RN2483_Rst_pin, LOW);
 //    delay(100);

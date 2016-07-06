@@ -72,11 +72,13 @@ void setup() {
      */
      
      Serial.begin(4800); // start serial connection for debug output
-     Serial.println(F("\n\nREV7 Hardware Tests"));
+     Serial.println(); // needed to make sure the second message is correct.
+     Serial.println(F("\nREV7 Hardware Tests"));
+     Serial.flush();
      setupBasicPeripherals();
      setupI2C();
      setupRFM23B();
-     Serial.println(F("Waiting for Xtal to settle"));
+//     Serial.println(F("Waiting for Xtal to settle"));
      delay(2000); // TODO can this be safely shortened?
 }
 
@@ -89,9 +91,9 @@ void loop() {
      * 5) Scan I2C bus
      * 6) Test available I2C devices sequentially
      */
-     Serial.println(F("\n\nStarting Tests..."));
-
-     testUILED();
+     Serial.println(F("Testing START"));
+     Serial.flush();
+     testSerial();
      testVcc();
      testXtal();
      testLightSensor();
@@ -102,6 +104,8 @@ void loop() {
      testPotCentred();
      testMotorLeft();
      testMotorRight();
+     testUILED();
+     Serial.println(F("Testing DONE\n"));
      delay(5000);
 }
 
