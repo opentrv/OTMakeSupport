@@ -5,14 +5,15 @@
 - Load program on the REV7, plug it in and hit go.
 
 ## Todo List
-- [ ] Serial Setup.
-- [ ] Device Auto Detection.
+- [x] Serial Setup.
+- [x] Device Auto Detection.
 - [x] Serial Parsing.
 - [x] Generic test function.
 - [x] List of Expected Results.
 - [ ] Specific Tests.
 - [ ] Flashing the firmware.
 - [ ] Relay Board Control.
+- [ ] Log results.
 
 ## Requirements
 - Python 3.4 (possibly 3.5).
@@ -59,25 +60,27 @@ RESULT:  The result of the test. This can take 4 values:
 OTHER:   Optionally, the device may also return a sensor value (e.g. supply voltage, temperature etc.).
 
 ## Notes
-- I think this will automatically run when a device is plugged in.
+- This will automatically run when a device is connected to serial and powered up.
+- Results are logged to a file as JSON objects.
+    - The key is the test name.
+    - The result is 1 for a pass or 0 for a fail.
 
 ## Appendix A: Example output when all tests passed (20160704)
 
-REV7 Hardware Tests
-Setting up Peripherals... done
-Setting up I2C... done
-Waiting for Xtal to settle
+Initialising serial device /dev/ttyUSB0 to 4800.
+Waiting for device...
+Device found. Running tests...
+ALL TESTS PASSED!
+Tested: 1 Passes: 1 Fails: 0
 
+## Appendix A: Example output when all tests passed (20160704)
 
-Testing START
-Testing UILED... CHECK
-Testing Supply... CHECK 300cV
-Testing Xtal... PASS
-Testing LightSensor... PASS 29
-Testing SHT21... PASS 417
-Testing RFM23B... PASS
-Testing Buttons... PASS
-Testing Potentiometer... PASS 184
-Testing MotorLeft... CHECK
-Testing MotorRight... CHECK
-Testing DONE
+Initialising serial device /dev/ttyUSB0 to 4800.
+Waiting for device...
+Device found. Running tests...
+TESTS FAILED!
+	UILED
+	MotorRight
+	MotorLeft
+
+Tested: 1,	 Passes: 0,	 Fails: 1.
