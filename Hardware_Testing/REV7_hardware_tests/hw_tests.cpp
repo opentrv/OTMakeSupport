@@ -292,11 +292,12 @@ void testUILED()
 void testMotorLeft()
 {
     Serial.print(F("Testing MotorLeft "));
+    Serial.println(F("CHECK"));
     Serial.flush();
+//    delay(500);
     digitalWrite(MOTOR_DRIVE_ML, LOW);
     delay(500);
     digitalWrite(MOTOR_DRIVE_ML, HIGH);
-    Serial.println(F("CHECK"));
     Serial.flush();
     delay(1000);
 }
@@ -309,11 +310,12 @@ void testMotorLeft()
 void testMotorRight()
 {
     Serial.print(F("Testing MotorRight "));
+    Serial.println(F("CHECK"));
     Serial.flush();
+//    delay(500);
     digitalWrite(MOTOR_DRIVE_MR, LOW);
     delay(500);
     digitalWrite(MOTOR_DRIVE_MR, HIGH);
-    Serial.println(F("CHECK"));
     Serial.flush();
     delay(1000);
 }
