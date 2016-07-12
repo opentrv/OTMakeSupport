@@ -61,7 +61,12 @@ void setupRFM23B();
 void setupSoftSerial();
 
 /************************************** Test Functions ******************************/
- 
+
+/**
+ * @brief   Tests serial connection both ways. Blocks until timeout.
+ */
+void testSerial();
+
 /**
  * @brief   Tests supply voltage against internal reference
  * @todo    Implement test
