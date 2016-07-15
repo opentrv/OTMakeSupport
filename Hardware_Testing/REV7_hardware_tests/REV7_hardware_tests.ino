@@ -48,6 +48,9 @@ Author(s) / Copyright (s): Deniz Erbilgin 2016
 
 
 /************************ Other Constants ****************************/
+static const constexpr uint8_t MAJOR_VERSION = 0;
+static const constexpr uint8_t MINOR_VERSION = 1;
+
 // Xtal
 static const uint8_t xtalExpectedValue = 122;  // Expected value from xtal
 static const uint8_t xtalMaxDeviation  =   2;  // Max acceptable deviation from xtal
@@ -73,7 +76,10 @@ void setup() {
      
      Serial.begin(4800); // start serial connection for debug output
      Serial.println(); // needed to make sure the second message is correct.
-     Serial.println(F("\nREV7 Hardware Tests"));
+     Serial.print(F("\nREV7 Hardware Tests v"));
+     Serial.print(MAJOR_VERSION);
+     Serial.print('.');
+     Serial.println(MINOR_VERSION);
      Serial.flush();
      setupBasicPeripherals();
      setupI2C();
