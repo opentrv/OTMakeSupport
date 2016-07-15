@@ -3,10 +3,15 @@
 """
 Script for automatically testing the REV7 hardware.
 """
+import sys
 import os
 import serial
 import time
 #import traceback
+
+print("\nREV7 Hardware Testing Script v0.1")
+print("Press CTRL-C to exit.")
+
 try:
     import RPi.GPIO as GPIO
     MOTOR_PINS = {'LEFT': 3, 'RIGHT': 5}  # dict to store motor test pins.
@@ -14,7 +19,7 @@ try:
     GPIO.setup(MOTOR_PINS['LEFT'], GPIO.IN)
     GPIO.setup(MOTOR_PINS['RIGHT'], GPIO.IN)
 except ImportError:
-    print("RPi.GPIO not found. Using null test for motor.")
+    print("\nRPi.GPIO not found. Using null test for motor.")
     GPIO = None
 
 # Constants
@@ -150,6 +155,7 @@ class DoTest:
             return False
         if ret_val is False:
             self.log_result(self.results)
+            print("\nConnect next device or press CTRL-C to exit.\n")
             return self.results
         if ret_val is None:
             pass
@@ -220,7 +226,7 @@ class DoTest:
 
 # The actual program.
 try:
-    print("\n\nInitialising serial device " + SERIAL_DEV + " to " + str(SERIAL_BAUD) + ".")
+    print("Initialising serial device " + SERIAL_DEV + " to " + str(SERIAL_BAUD) + ".")
     with serial.Serial(SERIAL_DEV, SERIAL_BAUD, timeout=1) as ser:  # Open serial port.
         do_test = DoTest(TESTS, ser)  # Make an instance of DoTest
         print("Waiting for device...")
@@ -230,6 +236,8 @@ try:
                 do_test.do(string)
 except UnicodeDecodeError:
     print("Serial error. Please try again.")
+except KeyboardInterrupt:
+    sys.exit(0)
 finally:
     try:
         print("\nCleaning up GPIO")
