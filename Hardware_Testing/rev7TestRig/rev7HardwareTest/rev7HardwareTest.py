@@ -231,11 +231,12 @@ try:
         do_test = DoTest(TESTS, ser)  # Make an instance of DoTest
         print("Waiting for device...")
         while True:
-            string = ser.readline().decode()
-            if len(string) > 3:
-                do_test.do(string)
-except UnicodeDecodeError:
-    print("Serial error. Please try again.")
+            try:
+                string = ser.readline().decode()
+                if len(string) > 3:
+                    do_test.do(string)
+            except UnicodeDecodeError:
+                print("Serial error.")
 except KeyboardInterrupt:
     sys.exit(0)
 finally:
