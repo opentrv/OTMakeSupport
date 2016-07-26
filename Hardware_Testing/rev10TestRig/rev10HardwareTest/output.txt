@@ -9,3 +9,4 @@
 {'Vcc': 1, 'HeatCall': None, 'Xtal': 1, 'UILED': None, 'LightSensor': 1, 'TMP112': 1, 'Serial': 1, 'RFM23B': 1}
 {'Serial': 1, 'UILED': None, 'Xtal': 1, 'SIM900': 1, 'Vcc': 1, 'HeatCall': None, 'LightSensor': 1, 'TMP112': 1, 'RFM23B': 1}
 {'HeatCall': None, 'Xtal': 1, 'UILED': None, 'LightSensor': 1, 'TMP112': 1, 'Serial': 1, 'Vcc': 1, 'SIM900': 1, 'RFM23B': 1}
+{'LightSensor': 1, 'UILED': None, 'Serial': 1, 'Vcc': 1, 'HeatCall': None, 'Xtal': 1, 'TMP112': 1, 'RFM23B': 1}
