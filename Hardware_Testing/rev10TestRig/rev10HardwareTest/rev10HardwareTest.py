@@ -13,15 +13,6 @@ print("\nREV10 Hardware Testing Script v0.1.0")
 print("For use with REV10HardwareTest firmware v0.1.0")
 print("Press CTRL-C to exit.")
 
-try:
-    import RPi.GPIO as GPIO
-    MOTOR_PINS = {'LEFT': 3, 'RIGHT': 5}  # dict to store motor test pins.
-    GPIO.setmode(GPIO.BOARD)
-    GPIO.setup(MOTOR_PINS['LEFT'], GPIO.IN)
-    GPIO.setup(MOTOR_PINS['RIGHT'], GPIO.IN)
-except ImportError:
-    print("\nRPi.GPIO not found. Using null test for motor.")
-    GPIO = None
 
 # Constants
 OUTPUT_FILE = os.path.realpath('./output.txt')
@@ -89,7 +80,7 @@ TESTS = {"Vcc":             available_tests.supply,  # Ignored or set to 3.3 V?
          "LightSensor":     available_tests.pass_fail,
          "RFM23B":          available_tests.pass_fail,
          "TMP112":          available_tests.pass_fail,
-         "SIM900":          available_tests.pass_fail,
+         "SIM900":          available_tests.dummy,
          "UILED":           available_tests.dummy,  # This will be checked by the user
          "HeatCall":        available_tests.dummy,  # This will be checked by the user
          "PSU":             available_tests.dummy  # This will not be checked.
@@ -203,9 +194,4 @@ try:
 except KeyboardInterrupt:
     sys.exit(0)
 finally:
-    try:
-        print("\nCleaning up GPIO")
-        GPIO.cleanup()
-    except:
-        pass
     print("Exiting")
