@@ -234,16 +234,19 @@ void testRFM23BBasic()
  * @brief   Starts flashing the LED.
  * @note    Call this first?
  */
-void testUILED()
+void testLEDs()
 { 
     Serial.print(F("Testing UILED "));
     pinMode(LED_HEATCALL_L, OUTPUT); // make sure set to output
+    pinMode(OUT_HEATCALL, OUTPUT); // make sure set to output
     Serial.println(F("CHECK"));
     Serial.println(F("Testing DONE"));
     while(1) {
         digitalWrite(LED_HEATCALL_L, LOW);
+        digitalWrite(OUT_HEATCALL, LOW);
         delay(100);
         digitalWrite(LED_HEATCALL_L, HIGH);
+        digitalWrite(OUT_HEATCALL, HIGH);
         delay(500);
     }
     Serial.flush();

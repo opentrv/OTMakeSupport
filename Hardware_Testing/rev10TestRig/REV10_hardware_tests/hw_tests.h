@@ -112,7 +112,7 @@ void testRFM23BBasic();
  * @brief   Flashes LED
  */
 void testUILED();
-
+void testLEDs();
 /**
  * @brief   Checks buttons are not stuck.
  */

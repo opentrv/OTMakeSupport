@@ -43,7 +43,7 @@ Author(s) / Copyright (s): Deniz Erbilgin 2016
 
 /************************ Other Constants ****************************/
 static const constexpr uint8_t MAJOR_VERSION = 0;
-static const constexpr uint8_t MINOR_VERSION = 1;
+static const constexpr uint8_t MINOR_VERSION = 2;
 static const constexpr uint8_t MICRO_VERSION = 0;
 
 // Xtal
@@ -104,8 +104,7 @@ void loop() {
      testTMP112();
      testRFM23BBasic();
      testSIM900();
-     testHeatCall();
-     testUILED();
+     testLEDs();
      Serial.println(F("Testing DONE\n"));
 }
 
