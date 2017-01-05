@@ -13,6 +13,10 @@
 #   libs:
 #       OTRadioLink: https://github.com/opentrv/OTRadioLink
 #       OTAESGCM: https://github.com/opentrv/OTAESGCM
+#
+#
+# NOTE!!! Arduino IDE requires an X server to run, even in CLI mode.
+# See https://github.com/arduino/Arduino/blob/master/build/shared/manpage.adoc#bugs for instructions on how to set up a dummy X server in Linux.
 
 ARDUINO_PATH=$HOME/arduino-1.6.12  # Path to Arduino bin
 BOARD_URL=https://raw.githubusercontent.com/opentrv/OpenTRV-Config/master/Arduino/package_opentrv_index.json
