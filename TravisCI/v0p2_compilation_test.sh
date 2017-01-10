@@ -22,8 +22,7 @@ ARDUINO_PATH=$HOME/arduino-1.6.12  # Path to Arduino bin
 BOARD_URL=https://raw.githubusercontent.com/opentrv/OpenTRV-Config/master/Arduino/package_opentrv_index.json
 INSTALL_TARGET="opentrv:avr"  # Target board to install
 BUILD_TARGET=opentrv:avr:opentrv_v0p2  # Target board to build for.
-SKETCH_PATH=$HOME/git/OpenTRV-Arduino-V0p2/Arduino/hardware/V0p2_Main_PCB_REV7_DORM1_and_REV8/testsuite/201611/REV7Minimal/REV7Minimal.ino  # Path to sketch to verify
-
+#SKETCH_PATH=$HOME/git/OpenTRV-Arduino-V0p2/Arduino/hardware/V0p2_Main_PCB_REV7_DORM1_and_REV8/testsuite/201611/REV7Minimal/REV7Minimal.ino  # Path to sketch to verify
 
 # Setup preferences to point at OpenTRV board config.
 $ARDUINO_PATH/arduino --pref boardsmanager.additional.urls=$BOARD_URL
@@ -31,5 +30,15 @@ $ARDUINO_PATH/arduino --pref boardsmanager.additional.urls=$BOARD_URL
 # Install V0p2 board.
 $ARDUINO_PATH/arduino --install-boards $INSTALL_TARGET
 
+# Make script terminate when something returns false.
+set -e
+
 # Verify sketch compiles.
-$ARDUINO_PATH/arduino --verify --board $BUILD_TARGET $SKETCH_PATH
+#$ARDUINO_PATH/arduino --verify --board $BUILD_TARGET $SKETCH_PATH
+
+# Verify REV7 minimal test.
+$ARDUINO_PATH/arduino --verify --board $BUILD_TARGET $HOME/git/OpenTRV-Arduino-V0p2/Arduino/hardware/V0p2_Main_PCB_REV7_DORM1_and_REV8/testsuite/201611/REV7Minimal/REV7Minimal.ino
+# Verify REV8 minimal test.
+$ARDUINO_PATH/arduino --verify --board $BUILD_TARGET /home/denzo/git/OpenTRV-Arduino-V0p2/Arduino/hardware/V0p2_Main_PCB_REV7_DORM1_and_REV8/testsuite/201701/REV8Minimal/REV8Minimal.ino
+# Verify REV11 minimal test.
+$ARDUINO_PATH/arduino --verify --board $BUILD_TARGET /home/denzo/git/OpenTRV-Arduino-V0p2/Arduino/hardware/REV11/testsuite/REV11Minimal/REV11Minimal.ino
