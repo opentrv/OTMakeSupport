@@ -37,8 +37,8 @@ set -e
 #$ARDUINO_PATH/arduino --verify --board $BUILD_TARGET $SKETCH_PATH
 
 # Verify REV7 minimal test.
-$ARDUINO_PATH/arduino --verify --board $BUILD_TARGET $HOME/git/OpenTRV-Arduino-V0p2/Arduino/hardware/V0p2_Main_PCB_REV7_DORM1_and_REV8/testsuite/201611/REV7Minimal/REV7Minimal.ino
+$ARDUINO_PATH/arduino --verify --board $BUILD_TARGET $HOME/git/OpenTRV-Arduino-V0p2/Arduino/hardware/V0p2_Main_PCB_REV7_DORM1_and_REV8/REV7HardwareTest/REV7HardwareTest.ino
 # Verify REV8 minimal test.
-$ARDUINO_PATH/arduino --verify --board $BUILD_TARGET /home/denzo/git/OpenTRV-Arduino-V0p2/Arduino/hardware/V0p2_Main_PCB_REV7_DORM1_and_REV8/testsuite/201701/REV8Minimal/REV8Minimal.ino
+$ARDUINO_PATH/arduino --verify --board $BUILD_TARGET $HOME/git/OpenTRV-Arduino-V0p2/Arduino/hardware/V0p2_Main_PCB_REV7_DORM1_and_REV8/REV8HardwareTest/REV8HardwareTest.ino
 # Verify REV11 minimal test.
-$ARDUINO_PATH/arduino --verify --board $BUILD_TARGET /home/denzo/git/OpenTRV-Arduino-V0p2/Arduino/hardware/REV11/testsuite/REV11Minimal/REV11Minimal.ino
+$ARDUINO_PATH/arduino --verify --board $BUILD_TARGET $HOME/git/OpenTRV-Arduino-V0p2/Arduino/hardware/REV11/REV11HardwareTest/REV11HardwareTest.ino
