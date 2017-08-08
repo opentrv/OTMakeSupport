@@ -1,6 +1,7 @@
 
 """
 Copyright [2016] [Mark Hill, Matthew Waite]
+          [2017] [Deniz Erbilgin]
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -17,12 +18,8 @@ limitations under the License.
 """
 
 import binascii
-from cryptography.hazmat.backends import default_backend
-from cryptography.hazmat.primitives.ciphers import (
-    Cipher, algorithms, modes
-)
+from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 import logging
-import os
 
 
 # lifted from https://cryptography.io/en/latest/hazmat/primitives/symmetric-encryption/#cryptography.hazmat.primitives.ciphers.modes.GCM
@@ -59,67 +56,78 @@ import os
 # openTRVAesgcmPacket Class is initialised with and OpenTRV AESGCM encoded packet and the pre-shared LSBs of the
 # leaf node address (ID). FRom that data, the class can extract the
 
-
 class OpenTRVAesgcmPacket(object):
+    """
+    Open TRV packet format
+    ----------------------
+    | Authenticated Additional Data                                                   | Plain/cipher text    | Reset + message counters, tag and encryption type
+    |length byte|type byte|Seq_num + id_len byte| variable length ID |body length byte| variable length body | variable length trailer (1 byte or 23 bytes)
 
-    # Open TRV packet format
-    # ----------------------
-    # |length byte|type byte|Seq_num + id_len byte| variable length ID |body length byte| variable length body | variable length trailer (1 byte or 23 bytes)
-
-    # Class instance expects the encrypted packet, stored as a bytearray and the  6 bytes of
-    # The 6 byte leaf node ID required for the decrypt (the full ID is 8cbytes
-    # long) also stored as a byte array.
+    Class instance expects the encrypted packet, stored as a bytearray and the  6 bytes of
+    The 6 byte leaf node ID required for the decrypt (the full ID is 8 c-bytes long) also stored as a byte array.
+    """
 
     def __init__(self):
-        1
+        pass
+
 
 def prettyprint(data):
     line = ""
     for i in range(len(data)):
-    # comma at EOL stops new line at every iteration.
+        # comma at EOL stops new line at every iteration.
         line += "%02x " % data[i]
     return line
 
-INDEX_FRAME_LENGTH = -1 # Frame Length is not sent up to the UDP layer
-INDEX_FRAME_TYPE = 0  # Frame Type
-INDEX_SEQUENCE_NUMBER = 1  # Frame Sequence number = upper nibble byte 2
-INDEX_ID_LENGTH = 1  # ID length = lower nibble of byte 2
-INDEX_ID_START = 2      # the ID starts at byte 3 and is IDLEN bytes long
+INDEX_FRAME_LENGTH = 0 # First byte is frame length
+INDEX_FRAME_TYPE = 1  # Frame Type
+INDEX_SEQUENCE_NUMBER = 2  # Frame Sequence number = upper nibble byte 2
+INDEX_ID_LENGTH = 2  # ID length = lower nibble of byte 2
+INDEX_ID_START = 3      # the ID starts at byte 3 and is IDLEN bytes long
 
-def additional_data(packet, tag, ciphertext):
 
-    ad_length = 4 + (packet[INDEX_ID_LENGTH] & 0x0f) - 1 # -1 as length byte not included
+def additional_data(packet):
+    """ Put additional authenticated data (ad) in its own buffer.
 
+    The ad consists of the start of the packet up to but not including the start of the ciphertext.
+
+    :param packet: Raw byte encoded secure frame.
+    :return: Additional authenticated data as a bytes object.
+    """
+
+    # Packet length + secure O-frame type + (sequence number & ID length) + len(ID)
+    # On a usual V0p2 secure frame (e.g. as in RC3-5 releases) this will be 8-bytes.
+    ad_length = 4 + (packet[INDEX_ID_LENGTH] & 0x0f)
     log.debug("aesgcm:additional_date:ad_length: " + str(ad_length))
-
-    ad = bytearray()
+    ad = bytes(packet[:ad_length])
     total_length = len(packet)  # +1 for length
     log.debug("aesgcm:additional_data:total_length: " + str(total_length))
-    ad.append(total_length)  #(7+len(ciphertext)+len(tag)+ad_length)))
-    # 7 for other extraneous bytes
-    ad.extend(packet[:ad_length])
-    return bytes(ad)
+    return ad
+
 
 def split_packet(packet):
     id_length = packet[INDEX_ID_LENGTH] & 0x0f
     index_text_start = INDEX_ID_START + id_length + 1
     text_length = packet[INDEX_ID_START + id_length]
-    return (id_length, index_text_start, text_length)
+    return id_length, index_text_start, text_length
+
 
 def cipher_text(packet):
     (id_length, index_text_start, text_length) = split_packet(packet)
     return packet[index_text_start:index_text_start + text_length]
 
+
 def hex_string_to_bytes(s):
-    return (binascii.unhexlify(s.replace(' ', '').lower()))
+    return binascii.unhexlify(s.replace(' ', '').lower())
+
 
 def tag(packet):
     # The tag is 16 bytes long , and starts 17 bytes from the end of the packet (there is a 0x80 aes-gcm
     # identifier byte at the end of the end of the packet) hence the magic
     # numbers 17 and 16.
     index_tag_start = len(packet) - 17
-    tag = packet[index_tag_start:(len(packet) - 1)] # why can't this just be -1?'
-    return bytes(tag)
+    tg = packet[index_tag_start:-1]
+    return bytes(tg)
+
 
 def initialisation_vector(packet, node_id):
     (id_length, index_text_start, text_length) = split_packet(packet)
@@ -146,17 +154,18 @@ def initialisation_vector(packet, node_id):
     return bytes(nonce)
 
 
-def decryptMessage(data_packet, key, node_id):
+def decrypt_message(data_packet, hex_key, node_id):
+    retval = None
     log.debug("decrypting for node " + node_id)
     log.debug("aesgcm:eMFEP2:data_packet:pp (len) (" + str(len(data_packet)) + ") ")
     log.debug(prettyprint(data_packet))
 
-        #key is from the csv file, 128 bits
-        #aad is additional data, from (length, type, seqlen, 4xID bytes, bodyLength)
-        #iv is initialisation vector, from
-        #ciphertext is from packet
-        #tag is from
-        #data_packet is a handful of byte
+    # key is from the csv file, 128 bits
+    # aad is additional data, from (length, type, seqlen, 4xID bytes, bodyLength)
+    # iv is initialisation vector, from
+    # ciphertext is from packet
+    # tag is from
+    # data_packet is a handful of byte
     if data_packet[len(data_packet) - 1] == 0x80:
         log.debug("aesgcm encryption used")
 
@@ -170,51 +179,22 @@ def decryptMessage(data_packet, key, node_id):
         log.debug("tag...")
         tg = tag(data_packet)
         log.debug("additional data...")
-        ad = additional_data(data_packet, tg, ct)
+        ad = additional_data(data_packet)
+        key = hex_string_to_bytes(hex_key)
         log.debug("preparation complete")
-
-        log.debug("types:iv,ct,tg,ad,key " + str(type(iv)) + ", " + str(type(ct)) + ", " + str(type(tg)) + ", " + str(type(ad)) + ", " + str(type(key)))
-        log.debug("values:iv,ct,tg,ad,key ")
-        log.debug(repr(iv))
-        log.debug(repr(ct))
-        log.debug(repr(tg))
-        log.debug(repr(ad))
-        log.debug(repr(hex_string_to_bytes(key)))
-        log.debug("len:iv,ct,tg,ad,key ")
-        log.debug(repr(len(iv)))
-        log.debug(repr(len(ct)))
-        log.debug(repr(len(tg)))
-        log.debug(repr(len(ad)))
-        log.debug(repr(len(hex_string_to_bytes(key))))
-        log.debug("pp:iv,ct,tg,ad,key ")
-        log.debug(prettyprint (iv))
-        log.debug(prettyprint (ct))
-        log.debug(prettyprint (tg))
-        log.debug(prettyprint (ad))
-        log.debug(prettyprint  (hex_string_to_bytes(key)))
-
+        debug_array = [iv, ct, tg, ad, key]
+        log.debug("len | pp:iv,ct,tg,ad,key")
+        [log.debug("{:>2} | {}".format(repr(len(x)), prettyprint(x))) for x in debug_array]
 
         log.debug("attempting decryption...")
         try:
-            decryptor = Cipher(
-                algorithms.AES(hex_string_to_bytes(key)),
-                modes.GCM(iv, tg),
-                backend=default_backend()
-            ).decryptor()
-
-            log.debug("decryptor created")
-            # We put associated_data back in or the tag will fail to verify
-            # when we finalize the decryptor.
-            decryptor.authenticate_additional_data(bytes(ad))
-            log.debug("additional data authenticated")
-            # Decryption gets us the authenticated plaintext.
-            # If the tag does not match an InvalidTag exception will be raised.
-            retval = decryptor.update((ct)) + decryptor.finalize()
-            log.debug("decryptor updated and finalised")
+            buf = ct + tg  # aesgcm.decrypt takes a buffer with the tag appended to the ciphertext.
+            aesgcm = AESGCM(key)  # (DE20170807) Shiny new interface in cryptography v2.x
+            retval = aesgcm.decrypt(iv, buf, ad)
+            log.debug("decrypted")
 
         except Exception as e:
             log.error('decryption failed with exception: {}: {}'.format(e.__class__.__name__, e))
-            retval = None
 
     return retval
 
