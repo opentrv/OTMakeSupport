@@ -17,7 +17,7 @@
 # under the Licence.
 #
 # *************************************************************
-# Author(s) / Copyright (s): Deniz Erbilgin 2017
+# Author(s) / Copyright (s): Deniz Erbilgin 2016
 #                            Damon Hart-Davis 2017
 
 # Script for programming OpenTRV V0p2 boards using a USBTiny ISP.
