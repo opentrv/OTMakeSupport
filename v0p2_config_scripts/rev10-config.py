@@ -1,10 +1,30 @@
 #!/usr/bin/env python3
-"""
-1. Program REV10 over avrdude
-2. Tell user to remove ISP cable and attach SIM900, FTDI and power
-3. Wait for prompt
-4. Program REV10 key and associations
-"""
+
+# *************************************************************
+#
+# The OpenTRV project licenses this file to you
+# under the Apache Licence, Version 2.0 (the "Licence");
+# you may not use this file except in compliance
+# with the Licence. You may obtain a copy of the Licence at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the Licence is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied. See the Licence for the
+# specific language governing permissions and limitations
+# under the Licence.
+#
+# *************************************************************
+# Author(s) / Copyright (s): Deniz Erbilgin 2016
+#                            Mark Hill 2016
+
+# 1. Program REV10 over avrdude
+# 2. Tell user to remove ISP cable and attach SIM900, FTDI and power
+# 3. Wait for prompt
+# 4. Program REV10 key and associations
+
 import RPi.GPIO as GPIO
 import sys
 import csv
